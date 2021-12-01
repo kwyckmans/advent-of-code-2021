@@ -11,9 +11,6 @@ test_input = """199
 260
 263"""
 
-
-measurements = []
-
 with open("input.txt", mode="r") as f:
     measurements = [int(line) for line in f.readlines()]
 
@@ -37,18 +34,13 @@ def calculate_increases_per_sliding_window(measurements: List[int]) -> int:
     increases = 0
     prev_sum = None
 
-    for idx in range(0, len(measurements)):
-        if not prev_sum:
-            prev_sum = measurements[idx] + measurements[idx + 1] + measurements[idx + 2]
-        else:
-            if not idx + 2 >= len(measurements):
-                cur_sum = (
-                    measurements[idx] + measurements[idx + 1] + measurements[idx + 2]
-                )
-                if cur_sum > prev_sum:
-                    increases = increases + 1
+    for idx in range(0, len(measurements) - 2):
+        cur_sum = sum(measurements[idx : idx + 3])
 
-                prev_sum = cur_sum
+        if prev_sum and cur_sum > prev_sum:
+            increases = increases + 1
+
+        prev_sum = cur_sum
 
     return increases
 
