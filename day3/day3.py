@@ -72,6 +72,7 @@ def get_rating(
         if len(filtered_diagnostics) is 1:
             return int(filtered_diagnostics[0], 2)
 
+    # Should only ever   reach this with one element left.
     print(f"Reached end of oxygen rating, have {len(filtered_diagnostics)} values left")
     return int(filtered_diagnostics[0], 2)
 
