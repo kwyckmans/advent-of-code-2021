@@ -51,36 +51,24 @@ basins = []
 visited_coords = set()
 
 
+def should_visit(grid, row, col):
+    return col in grid[row] and grid[row][col] != 9 and (row, col) not in visited_coords
+
+
 def get_adjacent_coordinates(
     grid: Dict[int, Dict[int, int]], row: int, col: int
-) -> bool:
+) -> Tuple[int, int]:
     print(f"Checking adjecents for {row}, {col}")
-    if (
-        col - 1 in grid[row]
-        and grid[row][col - 1] != 9
-        and (row, col - 1) not in visited_coords
-    ):
+    if should_visit(grid, row, col - 1):
         yield (row, col - 1)
 
-    if (
-        col + 1 in grid[row]
-        and grid[row][col + 1] != 9
-        and (row, col + 1) not in visited_coords
-    ):
+    if should_visit(grid, row, col + 1):
         yield (row, col + 1)
 
-    if (
-        row + 1 in grid
-        and grid[row + 1][col] != 9
-        and (row + 1, col) not in visited_coords
-    ):
+    if should_visit(grid, row + 1, col):
         yield (row + 1, col)
 
-    if (
-        row - 1 in grid
-        and grid[row - 1][col] != 9
-        and (row - 1, col) not in visited_coords
-    ):
+    if should_visit(grid, row - 1, col):
         yield (row - 1, col)
 
 
