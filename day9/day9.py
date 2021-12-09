@@ -1,10 +1,10 @@
-from typing import Dict, List, Tuple
+from typing import Dict, Generator, List, Set, Tuple
 import math
 from collections import defaultdict
 
 
 def load_input(filename: str) -> Dict[int, Dict[int, int]]:
-    data = defaultdict(dict)
+    data: Dict[int, Dict[int, int]] = defaultdict(dict)
     with open(filename, mode="r") as f:
         for i, row in enumerate(f.readlines()):
             for j, col in enumerate([int(col) for col in row.strip()]):
@@ -47,17 +47,17 @@ for row in grid:
 
 print(f"Part 1: {total}, low points: {low_points}")
 
-basins = []
-visited_coords = set()
+basins: List[List[Tuple[int, int]]] = []
+visited_coords: Set[Tuple[int, int]] = set()
 
 
-def should_visit(grid, row, col):
+def should_visit(grid: Dict[int, Dict[int, int]], row: int, col: int) -> bool:
     return col in grid[row] and grid[row][col] != 9 and (row, col) not in visited_coords
 
 
 def get_adjacent_coordinates(
     grid: Dict[int, Dict[int, int]], row: int, col: int
-) -> Tuple[int, int]:
+) -> Generator[Tuple[int, int], None, None]:
     print(f"Checking adjecents for {row}, {col}")
     if should_visit(grid, row, col - 1):
         yield (row, col - 1)
@@ -73,7 +73,7 @@ def get_adjacent_coordinates(
 
 
 for low_point in low_points:
-    basin = []
+    basin: List[Tuple[int, int]] = []
     print(f"Finding basin for {low_point}")
     queue = [low_point]
     visited_coords.add(low_point)
